@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"	
+	template="/templates/default.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{buildFieldForm.buildTree}" />
+	</f:metadata>
+	<ui:define name="content">
+		<f:view encoding="UTF-8" locale="hu_HU" contentType="text/html">
+
+			<p:commandButton action="#{sessionBean.initValue()}" value="new user"
+				onsuccess="PF('dlgUserWidget').show();" update=":user:grid"
+				ajax="true" process="@this" />
+			<h:messages id="messages" />
+			<p:dialog widgetVar="dlgUserWidget" header="Felhasználók"
+				modal="true">
+				<h:form id="user">
+					<h:panelGrid id="grid" columns="2">
+					</h:panelGrid>
+					<p:commandButton action="#{sessionBean.save()}" ajax="true"
+						value="Save" onsuccess="PF('dlgUserWidget').hide();"
+						update=":messages,:userTable" />
+				</h:form>
+			</p:dialog>
+			<p:dataTable id="userTable" value="#{sessionBean.userList}" var="u"
+				styleClass="order-table" headerClass="order-table-header"
+				rowClasses="order-table-odd-row,order-table-even-row">
+			</p:dataTable>
+		</f:view>
+	</ui:define>
+</ui:composition>
