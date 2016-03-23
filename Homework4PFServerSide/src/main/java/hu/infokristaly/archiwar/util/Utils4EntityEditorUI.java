@@ -75,13 +75,13 @@ public class Utils4EntityEditorUI {
 		} else {
 			viewId = "/input.xhtml";
 		}
-		ViewDeclarationLanguage vdl = context.getApplication().getViewHandler().getViewDeclarationLanguage(context, viewId);
+		Application app = context.getApplication();
+		ViewDeclarationLanguage vdl = app.getViewHandler().getViewDeclarationLanguage(context, viewId);
 		UIViewRoot view = vdl.createView(context, viewId);
 		vdl.buildView(context, view);
 		view.setId(field.getName() + "_field");
 		UIComponent input = view.findComponent("input");
-		input.setId(field.getName() + "_editor");
-		Application app = context.getApplication();
+		input.setId(field.getName() + "_editor");		
 		Type type = field.getGenericType();
 		try {
 			Class<?> fieldClass = Class.forName(type.getTypeName());
@@ -106,16 +106,8 @@ public class Utils4EntityEditorUI {
 	public static void addToEditor(UIComponent parent, UIComponent label, UIComponent input) {
 		label.setParent(parent);
 		parent.getChildren().add(label);
-		if (input instanceof UIViewRoot) {
-			((UIViewRoot)input).getChildren().forEach(c -> {				
-				c.setId(input.getId()+"_panel");
-				c.setParent(parent);
-				parent.getChildren().add(c);
-			});
-		} else {
-			input.setParent(parent);
-			parent.getChildren().add(input);
-		}
+		input.setParent(parent);
+		parent.getChildren().add(input);
 	}
 
 	public static Map<Integer, SimpleEntry<UIComponent, UIComponent>> getEditorFieldsFromEntityInfo(FacesContext fc, Class<?> clazz) {
@@ -128,9 +120,9 @@ public class Utils4EntityEditorUI {
 			if (field.isAnnotationPresent(EntityInfo.class)) {
 				UIComponent label = createLabel(field);
 				UIComponent input = null;
-				 input = createPFInput(el, elFactory, field);
+				// input = createPFInput(el, elFactory, field);
 				// input = createInput(el, elFactory, field);
-				/*
+				//*
 				try {
 					input = getInputTemp(fc, field);
 				} catch (IOException e) {

@@ -28,15 +28,15 @@ public class Clerk implements java.io.Serializable {
      */
     private static final long serialVersionUID = 4103231713043595259L;
     private Long id;
-    @EntityInfo(info="E-mail address", weight=3)
+    @EntityInfo(info="E-mail address", weight=2, editor="input")
     private String osUserName;
-    @EntityInfo(info="User name", weight=1)
+    @EntityInfo(info="User name", weight=1, editor="input")
     private String userName;
     private String vCard;
     private byte[] photo;
     private String sqlserverloginname;
     private Usergroup usergroup;
-    @EntityInfo(info="Password", weight=2)
+    @EntityInfo(info="Password", weight=3, editor="password")
     private String osUserPassword;
     @EntityInfo(info="Enabled", weight=4, editor="booleancheckbox")
     private Boolean enabled;
